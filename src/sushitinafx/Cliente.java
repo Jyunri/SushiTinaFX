@@ -22,8 +22,8 @@ public class Cliente {
     String telefone;
     String celular;
 
-    public Cliente(int id, String nome, String endereco, String telefone, String celular) {
-        this.id = id;
+    public Cliente(String nome, String endereco, String telefone, String celular) {
+        this.id = gId;
         gId++;
         this.nome = nome;
         this.endereco = endereco;

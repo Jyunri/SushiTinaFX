@@ -37,7 +37,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
@@ -58,10 +57,11 @@ public class SushiTinaFX extends Application {
 
     //TODO - modularizar
     GridPane gp;
+
     /*
     Label lTelefone, lCelular, lCliente, lEndereco;
     TextField tfTelefone, tfCelular, tfCliente, tfEndereco;
-    */
+     */
     //Backend classes 
     @Override
     public void start(Stage primaryStage) {
@@ -355,7 +355,7 @@ public class SushiTinaFX extends Application {
                 String stTelefone = clienteGP.tfTelefone.getText();
                 String stCelular = clienteGP.tfCelular.getText();
                  */
-                pedido.setPedido(new Cliente(0, stCliente, stEndereco, stTelefone, stCelular), "teste", Float.valueOf(tfTroco.getText()), "nenuhma obs");
+                pedido.setPedido(new Cliente(stCliente, stEndereco, stTelefone, stCelular), "teste", Float.valueOf(tfTroco.getText()), "nenuhma obs");
                 System.out.println(pedido);
             } else {
                 System.out.println("Tipo mesa");
@@ -406,14 +406,14 @@ public class SushiTinaFX extends Application {
         hbTipoCadastro.setAlignment(Pos.CENTER);
 
         //<editor-fold>
-        Label lTelefone2 = new Label("Telefone:");
-        TextField tfTelefone2 = new TextField();
+        Label lTelefone = new Label("Telefone:");
+        TextField tfTelefone = new TextField();
 
         Label lCelular = new Label("Celular:");
         TextField tfCelular = new TextField();
 
         Label lCliente = new Label("Nome / Codigo do Cliente:");
-        TextField tfCliente = new TextField();
+        TextField tfNomeCliente = new TextField();
 
         Label lEndereco = new Label("Endereco:");
         TextField tfEndereco = new TextField();
@@ -422,16 +422,16 @@ public class SushiTinaFX extends Application {
         gpCadastroCliente.setVgap(10);
         gpCadastroCliente.setHgap(10);
 
-        gpCadastroCliente.add(lTelefone2, 0, 2);
-        gpCadastroCliente.add(tfTelefone2, 1, 2);
+        gpCadastroCliente.add(lTelefone, 0, 2);
+        gpCadastroCliente.add(tfTelefone, 1, 2);
         gpCadastroCliente.add(lCelular, 2, 2);
         gpCadastroCliente.add(tfCelular, 3, 2);
         gpCadastroCliente.add(lCliente, 0, 3);
-        gpCadastroCliente.add(tfCliente, 1, 3);
+        gpCadastroCliente.add(tfNomeCliente, 1, 3);
         gpCadastroCliente.add(lEndereco, 0, 4);
         gpCadastroCliente.add(tfEndereco, 1, 4);
         gpCadastroCliente.setColumnSpan(tfEndereco, 3);
-        gpCadastroCliente.setColumnSpan(tfCliente, 3);
+        gpCadastroCliente.setColumnSpan(tfNomeCliente, 3);
 
         //</editor-fold>
         //Logo and Buttons 
@@ -446,7 +446,7 @@ public class SushiTinaFX extends Application {
         File file = new File("/home/jimy/JimyGit/SushiTIna/SushiTinaFX/sushilogo.png");
         Image sushi = new Image(file.toURI().toString());
         ivLogo2.setImage(sushi);
-        
+
         HBox hbLogo2 = new HBox(ivLogo2);
         HBox hbBottom = new HBox(hbLogo2, hbBotoes);
 
@@ -456,7 +456,15 @@ public class SushiTinaFX extends Application {
         hbBotoes.setPadding(new Insets(0, 0, 0, 200));
 
         btConfirma.setOnAction((ActionEvent e) -> {
+            String stCliente = tfNomeCliente.getText();
+            String stEndereco = tfEndereco.getText();
+            String stTelefone = tfTelefone.getText();
+            String stCelular = tfCelular.getText();
+            
             System.out.println("Cadastrar");
+            Cliente c = new Cliente(stCliente,stEndereco,stTelefone,stCelular);
+            LocalClienteDB.clienteTelDB.put(c.telefone, c);
+            LocalClienteDB.clienteCelDB.put(c.celular, c);
         });
 
         btLimpa.setOnAction((ActionEvent e) -> {
